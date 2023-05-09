@@ -1,3 +1,5 @@
+#include <Wire.h>
+#include <U8g2lib.h>
 #include <SoftwareSerial.h>
 
 // define the pins used for the software serial connection
@@ -10,24 +12,30 @@
 // create a new instance of the EspSoftwareSerial library
 EspSoftwareSerial::UART RFID_Serial;
 
+//
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
+
 // initialize variables used to store the card number
 int count = 0;
 char card_no[12];
 
 // initialize variable to toggle between add and remove items mode
-bool removeItem = false;
+bool removeItem = true;
 
 void setup() {
   // initialize the Serial Monitor
   Serial.begin(115200);
 
-  // initialize the software serial connection for the RFID reader
-  RFID_Serial.begin(9600, SWSERIAL_8N1, RFID_Serial_RX, RFID_Serial_TX, false);
+  //
+  u8g2.begin();
 
   // set the remove item button pin as input with pull-up resistor enabled
   pinMode(REMOVE_Item_Btn, INPUT_PULLUP);
 
   pinMode(2, OUTPUT);
+
+  // initialize the software serial connection for the RFID reader
+  RFID_Serial.begin(9600, SWSERIAL_8N1, RFID_Serial_RX, RFID_Serial_TX, false);
 
   // check if the software serial connection was successfully initialized
   if (!RFID_Serial) {
@@ -37,6 +45,16 @@ void setup() {
     }
   }
 
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_bubble_tr);  // choose a suitable font
+    u8g2.setCursor(0, 15);
+    u8g2.print("e-lab");
+    u8g2.setFont(u8g2_font_ncenB12_te);  // choose a suitable font
+    u8g2.setCursor(0, 30);
+    u8g2.print("innovations");
+  } while (u8g2.nextPage());
+  delay(1000);
 }
 
 void loop() {
@@ -63,10 +81,9 @@ void loop() {
     // print the card number to the Serial Monitor with the appropriate message based on the current mode
     if (removeItem) {
       Serial.print("Add item: ");
-      Serial.println(card_no);
     } else {
       Serial.print("Remove item: ");
-      Serial.println(card_no);
     }
+    Serial.println(card_no);
   }
 }
