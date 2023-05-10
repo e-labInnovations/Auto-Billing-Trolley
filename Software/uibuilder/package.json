@@ -4,6 +4,7 @@
   "dependencies": {
     "bootstrap-icons": "^1.10.5",
     "bulma": "^0.9.4",
+    "bulma-list": "^1.2.0",
     "bulma-toast": "^2.4.2"
   },
   "uibuilder": {
@@ -25,6 +26,15 @@
         "packageUrl": "/bulma",
         "url": "../uibuilder/vendor/bulma/css/bulma.css",
         "spec": "^0.9.4"
+      },
+      "bulma-list": {
+        "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma-list",
+        "installedVersion": "1.2.0",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://bluefantail.github.io/bulma-list",
+        "packageUrl": "/bulma-list",
+        "url": "../uibuilder/vendor/bulma-list/?",
+        "spec": "^1.2.0"
       },
       "bulma-toast": {
         "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma-toast",

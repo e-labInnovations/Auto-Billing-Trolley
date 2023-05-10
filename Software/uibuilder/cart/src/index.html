@@ -1,26 +1,158 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en">
+
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../uibuilder/images/node-blue.ico">
+    <link rel="icon" href="/images/favicon.ico">
 
-    <title>Blank template - Node-RED uibuilder</title>
+    <title>Cart</title>
     <meta name="description" content="Node-RED uibuilder - Blank template">
 
     <!-- Your own CSS (defaults to loading uibuilders css)-->
     <link type="text/css" rel="stylesheet" href="./index.css" media="all">
 
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <nav class="panel is-link">
+                <p class="panel-heading">
+                    <span class="icon">
+                        <i class="bi bi-cart-fill"></i>
+                    </span>
+                    Cart
+                </p>
+                <div class="panel-block">
+                    <div class="list has-visible-pointer-controls">
+                        <div class="list-item">
+                            <div class="list-item-image">
+                                <figure class="image is-96x96">
+                                    <img src="https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2360&q=80"
+                                        alt="Gameboy">
+                                </figure>
+                            </div>
+
+                            <div class="list-item-content">
+                                <div class="list-item-title">Yellow Gameboy</div>
+                            </div>
+
+                            <div class="list-item-controls">
+                                <div class="is-flex is-align-items-center">
+                                    <span>$35.00</span>
+
+                                    <div class="control ml-3 is-hidden-mobile">
+                                        <input class="input" type="number" value="1" style="width: 7ch">
+                                    </div>
+
+                                    <div class="buttons ml-3">
+                                        <button class="button is-hidden-mobile">
+                                            <span class="icon">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </span>
+                                            <span>Update</span>
+                                        </button>
+
+                                        <button class="button is-hidden-tablet">
+                                            <span class="icon">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-item">
+                            <div class="list-item-image">
+                                <figure class="image is-96x96">
+                                    <img src="https://images.unsplash.com/photo-1572635196184-84e35138cf62?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2360&q=80"
+                                        alt="Little toy car">
+                                </figure>
+                            </div>
+
+                            <div class="list-item-content">
+                                <div class="list-item-title">Little toy car</div>
+                            </div>
+
+                            <div class="list-item-controls">
+                                <div class="is-flex is-align-items-center">
+                                    <span>$25.00</span>
+
+                                    <div class="control ml-3 is-hidden-mobile">
+                                        <input class="input" type="number" value="1" style="width: 7ch">
+                                    </div>
+
+                                    <div class="buttons ml-3">
+                                        <button class="button is-hidden-mobile">
+                                            <span class="icon">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </span>
+                                            <span>Update</span>
+                                        </button>
+
+                                        <button class="button is-hidden-tablet">
+                                            <span class="icon">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-item">
+                            <div class="list-item-image">
+                                <figure class="image is-96x96">
+                                    <img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2360&q=80"
+                                        alt="Sunglasses">
+                                </figure>
+                            </div>
+
+                            <div class="list-item-content">
+                                <div class="list-item-title">Some random sunglasses</div>
+                            </div>
+
+                            <div class="list-item-controls">
+                                <div class="is-flex is-align-items-center">
+                                    <span>$70.00</span>
+
+                                    <div class="control ml-3 is-hidden-mobile">
+                                        <input class="input" type="number" value="1" style="width: 7ch">
+                                    </div>
+
+                                    <div class="buttons ml-3">
+                                        <button class="button is-hidden-mobile">
+                                            <span class="icon">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </span>
+                                            <span>Update</span>
+                                        </button>
+
+                                        <button class="button is-hidden-tablet">
+                                            <span class="icon">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+
+
+
     <!-- #region Supporting Scripts. These MUST be in the right order. Note no leading / -->
     <script defer src="../uibuilder/uibuilder.iife.min.js"></script>
-    <!-- <script defer src="./index.js">/* OPTIONAL: Put your custom code in that */</script> -->
+    <script defer src="./index.js">/* OPTIONAL: Put your custom code in that */</script>
     <!-- #endregion -->
+</body>
 
-</head><body class="uib">
-    
-    <h1 class="with-subtitle">uibuilder Blank Template</h1>
-    <div role="doc-subtitle">Using the IIFE library.</div>
-
-    <div id="more"><!-- '#more' is used as a parent for dynamic HTML content in examples --></div>
-
-</body></html>
+</html>

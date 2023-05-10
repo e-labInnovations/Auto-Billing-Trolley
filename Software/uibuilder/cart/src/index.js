@@ -1,8 +1,15 @@
-/** The simplest use of uibuilder client library
- * See the docs if the client doesn't start on its own.
- */
+// run this function when the document is loaded
+window.onload = function () {
+    // Start up uibuilder - see the docs for the optional parameters
+    uibuilder.start()
 
-// Listen for incoming messages from Node-RED and action
-// uibuilder.onChange('msg', (msg) => {
-//     // do stuff with the incoming msg
-// })
+    uibuilder.send({
+        'topic': 'cart',
+        'payload': null,
+    })
+
+    // Listen for incoming messages from Node-RED and action
+    uibuilder.onChange('msg', (msg) => {
+        console.log("🚀 ~ file: index.js:13 ~ uibuilder.onChange ~ msg:", msg)
+    })
+}

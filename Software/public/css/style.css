@@ -127,8 +127,8 @@ a.button:hover {
 }
 .title img {
     margin: auto;
-    max-width: 769px;
-    width: 50%;
+    max-width: 200px;
+    width: 150px;
 }
 
 .nodes .content {
@@ -157,10 +157,10 @@ a.button:hover {
     font-family: "Roboto Slab";
     font-size: 20px;
     line-height: 50px;
-    color: #999;
+    color: #000000;
     padding: 0px 10px;
     height: 50px;
-    background: #ffffff;
+    background: #209cee;
 }
 .header-content {
     width: 100%;
@@ -170,21 +170,21 @@ a.button:hover {
 }
 .header-content .logo {
     vertical-align: middle;
-    height: 60px;
+    height: 40px;
 }
 .header-content .logo-name {
     vertical-align: middle;
     height: 20px;
 }
 .header-content a {
-    color: #999;
+    color: #000000;
 }
 .header-content ul {
     float: right;
     list-style-type: none;
     margin: -0;
     padding: 0;
-    background: #333;
+    background: #000000;
 }
 .header-content li {
     display: inline-block;
