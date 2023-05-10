@@ -1,0 +1,40 @@
+{
+  "name": "uib-root",
+  "version": "6.4.1",
+  "dependencies": {
+    "bootstrap-icons": "^1.10.5",
+    "bulma": "^0.9.4",
+    "bulma-toast": "^2.4.2"
+  },
+  "uibuilder": {
+    "packages": {
+      "bootstrap-icons": {
+        "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bootstrap-icons",
+        "installedVersion": "1.10.5",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://icons.getbootstrap.com/",
+        "packageUrl": "/bootstrap-icons",
+        "url": "../uibuilder/vendor/bootstrap-icons/?",
+        "spec": "^1.10.5"
+      },
+      "bulma": {
+        "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma",
+        "installedVersion": "0.9.4",
+        "estimatedEntryPoint": "css/bulma.css",
+        "homepage": "https://bulma.io",
+        "packageUrl": "/bulma",
+        "url": "../uibuilder/vendor/bulma/css/bulma.css",
+        "spec": "^0.9.4"
+      },
+      "bulma-toast": {
+        "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma-toast",
+        "installedVersion": "2.4.2",
+        "estimatedEntryPoint": "dist/bulma-toast.min.js",
+        "homepage": "https://rfoel.com/bulma-toast",
+        "packageUrl": "/bulma-toast",
+        "url": "../uibuilder/vendor/bulma-toast/dist/bulma-toast.min.js",
+        "spec": "^2.4.2"
+      }
+    }
+  }
+}

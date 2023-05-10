@@ -1,0 +1,35 @@
+[
+    {
+        "id": "7c45b39da721d99e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "494e3f733014ce80",
+        "type": "uibuilder",
+        "z": "7c45b39da721d99e",
+        "name": "",
+        "topic": "",
+        "url": "/cart",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "templateFolder": "blank",
+        "extTemplate": "",
+        "showfolder": false,
+        "reload": false,
+        "sourceFolder": "src",
+        "deployedVersion": "6.4.1",
+        "showMsgUib": false,
+        "x": 160,
+        "y": 40,
+        "wires": [
+            [],
+            []
+        ]
+    }
+]

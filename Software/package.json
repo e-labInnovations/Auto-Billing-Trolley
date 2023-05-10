@@ -1,0 +1,17 @@
+{
+  "name": "auto-billing-trolley",
+  "version": "1.0.0",
+  "description": "IoT based auto billing trolley with RFID system server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --max-old-space-size=384 node_modules/node-red/red.js --settings ./settings.js"
+  },
+  "author": "Mohammed Ashad (e-lab innovations)",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "node-red": "^3.0.2",
+    "node-red-contrib-uibuilder": "^6.4.1",
+    "when": "^3.7.8"
+  }
+}
