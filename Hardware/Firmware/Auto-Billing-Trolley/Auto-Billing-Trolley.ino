@@ -54,7 +54,7 @@ int count = 0;
 char card_no[12];
 
 // Initialize a variable to toggle between add and remove items mode
-bool removeItem = true;
+bool removeItem = false;
 
 // Initialize a flag to determine whether the configuration settings have been modified and need to be saved
 bool shouldSaveConfig = false;
@@ -139,34 +139,41 @@ void setup() {
 
 
 void loop() {
+  // Call the webSocket library's loop() function to handle any incoming WebSocket messages
   webSocket.loop();
 
-  // read the state of the remove item button
+  // Read the state of the remove item button
   bool removeItemBtnState = digitalRead(REMOVE_Item_Btn);
 
-  // toggle between add and remove items mode when the remove item button is pressed
+  // Toggle between add and remove items mode when the remove item button is pressed
   if (!removeItemBtnState) {
     removeItem = !removeItem;
-    delay(500);  // debounce delay
+    delay(500);  // Debounce delay to prevent multiple presses
   }
 
-  digitalWrite(2, removeItem);
+  // Turn on/off an LED based on the current mode (add or remove item)
+  digitalWrite(2, !removeItem);
 
-  // check if data is available on the RFID reader's software serial connection
+  // Check if data is available on the RFID reader's software serial connection
   if (RFID_Serial.available()) {
     count = 0;
-    // read up to 12 characters from the software serial connection
+    // Read up to 12 characters from the software serial connection
     while (RFID_Serial.available() && count < 12) {
       card_no[count] = RFID_Serial.read();
       count++;
       delay(5);
     }
-    // print the card number to the Serial Monitor with the appropriate message based on the current mode
-    if (removeItem) {
+
+    // Send a WebSocket message with the RFID number, depending on the current mode (add or remove item)
+    if (!removeItem) {
       Serial.print("Add item: ");
+      webSocket.sendTXT(("{ \"command\": \"addItem\", \"rfid\":\"" + String(card_no) + "\"}").c_str());
     } else {
       Serial.print("Remove item: ");
+      webSocket.sendTXT(("{ \"command\": \"removeItem\", \"rfid\":\"" + String(card_no) + "\"}").c_str());
     }
+
+    // Print the RFID number to the serial monitor
     Serial.println(card_no);
   }
 }
@@ -198,7 +205,7 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
       {
         Serial.printf("[WSc] Connected to url: %s\n", payload);
         // send message to server when Connected
-        webSocket.sendTXT(("{ \"command\": \"connected\"}").c_str());  // Send a text message to the server after a connection has been established
+        webSocket.sendTXT("{\"command\":\"connected\"}");  // Send a text message to the server after a connection has been established
       }
       break;
     case WStype_TEXT:  // A text message has been received from the server
@@ -255,7 +262,7 @@ bool loadConfigFile() {
 
   // Mount the SPIFFS file system
   Serial.println("Mounting File System...");
-  if (SPIFFS.begin()) { // If mounted successfully
+  if (SPIFFS.begin()) {  // If mounted successfully
 
     Serial.println("mounted file system");
 
