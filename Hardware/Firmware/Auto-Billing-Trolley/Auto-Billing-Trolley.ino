@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include <U8g2lib.h>
+#include "src/LiquidCrystal_I2C/LiquidCrystal_I2C.h"  //https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library
 #include <SoftwareSerial.h>
 
 // define the pins used for the software serial connection
@@ -9,11 +9,12 @@
 // define the pins used for the remove item button
 #define REMOVE_Item_Btn 14
 
+#define DISPLAY_ADDR 0x3F
+
 // create a new instance of the EspSoftwareSerial library
 EspSoftwareSerial::UART RFID_Serial;
 
-//
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
+LiquidCrystal_I2C lcd(DISPLAY_ADDR, 16, 2);
 
 // initialize variables used to store the card number
 int count = 0;
@@ -26,8 +27,9 @@ void setup() {
   // initialize the Serial Monitor
   Serial.begin(115200);
 
-  //
-  u8g2.begin();
+  Wire.begin();
+  lcd.init();
+  lcd.backlight();
 
   // set the remove item button pin as input with pull-up resistor enabled
   pinMode(REMOVE_Item_Btn, INPUT_PULLUP);
@@ -45,15 +47,8 @@ void setup() {
     }
   }
 
-  u8g2.firstPage();
-  do {
-    u8g2.setFont(u8g2_font_bubble_tr);  // choose a suitable font
-    u8g2.setCursor(0, 15);
-    u8g2.print("e-lab");
-    u8g2.setFont(u8g2_font_ncenB12_te);  // choose a suitable font
-    u8g2.setCursor(0, 30);
-    u8g2.print("innovations");
-  } while (u8g2.nextPage());
+  lcd.setCursor(0, 0);
+  lcd.print("Testing...");
   delay(1000);
 }
 
