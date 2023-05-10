@@ -8,6 +8,12 @@
         "env": []
     },
     {
+        "id": "6bfee2d6211a1532",
+        "type": "websocket-listener",
+        "path": "/ws",
+        "wholemsg": "false"
+    },
+    {
         "id": "494e3f733014ce80",
         "type": "uibuilder",
         "z": "7c45b39da721d99e",
@@ -26,11 +32,43 @@
         "sourceFolder": "src",
         "deployedVersion": "6.4.1",
         "showMsgUib": false,
-        "x": 150,
-        "y": 40,
+        "x": 130,
+        "y": 280,
         "wires": [
             [],
             []
         ]
+    },
+    {
+        "id": "1b68947c0ec4c6ba",
+        "type": "websocket in",
+        "z": "7c45b39da721d99e",
+        "name": "",
+        "server": "6bfee2d6211a1532",
+        "client": "",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "1005b1ea8109025d"
+            ]
+        ]
+    },
+    {
+        "id": "1005b1ea8109025d",
+        "type": "debug",
+        "z": "7c45b39da721d99e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 80,
+        "wires": []
     }
 ]
