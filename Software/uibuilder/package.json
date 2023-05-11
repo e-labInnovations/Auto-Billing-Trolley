@@ -10,40 +10,48 @@
   "uibuilder": {
     "packages": {
       "bootstrap-icons": {
+        "spec": "^1.10.5",
         "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bootstrap-icons",
         "installedVersion": "1.10.5",
         "estimatedEntryPoint": "?",
-        "homepage": "https://icons.getbootstrap.com/",
+        "homepage": "https://www.npmjs.com/search?q=bootstrap-icons",
         "packageUrl": "/bootstrap-icons",
         "url": "../uibuilder/vendor/bootstrap-icons/?",
-        "spec": "^1.10.5"
+        "installedFrom": "npm",
+        "outdated": {}
       },
       "bulma": {
+        "spec": "^0.9.4",
         "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma",
         "installedVersion": "0.9.4",
-        "estimatedEntryPoint": "css/bulma.css",
-        "homepage": "https://bulma.io",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://www.npmjs.com/search?q=bulma",
         "packageUrl": "/bulma",
-        "url": "../uibuilder/vendor/bulma/css/bulma.css",
-        "spec": "^0.9.4"
+        "url": "../uibuilder/vendor/bulma/?",
+        "installedFrom": "npm",
+        "outdated": {}
       },
       "bulma-list": {
+        "spec": "^1.2.0",
         "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma-list",
         "installedVersion": "1.2.0",
         "estimatedEntryPoint": "?",
-        "homepage": "https://bluefantail.github.io/bulma-list",
+        "homepage": "https://www.npmjs.com/search?q=bulma-list",
         "packageUrl": "/bulma-list",
         "url": "../uibuilder/vendor/bulma-list/?",
-        "spec": "^1.2.0"
+        "installedFrom": "npm",
+        "outdated": {}
       },
       "bulma-toast": {
+        "spec": "^2.4.2",
         "installFolder": "E:\\Projects\\Auto-Billing-Trolley\\Software\\uibuilder\\node_modules\\bulma-toast",
         "installedVersion": "2.4.2",
-        "estimatedEntryPoint": "dist/bulma-toast.min.js",
-        "homepage": "https://rfoel.com/bulma-toast",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://www.npmjs.com/search?q=bulma-toast",
         "packageUrl": "/bulma-toast",
-        "url": "../uibuilder/vendor/bulma-toast/dist/bulma-toast.min.js",
-        "spec": "^2.4.2"
+        "url": "../uibuilder/vendor/bulma-toast/?",
+        "installedFrom": "npm",
+        "outdated": {}
       }
     }
   }

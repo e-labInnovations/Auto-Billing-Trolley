@@ -1,0 +1,37 @@
+[
+    {
+      "name": "Bananas",
+      "rfid": "3A001A9811A9",
+      "price": 22.00,
+      "quantity": "1 kg",
+      "image": "https://m.media-amazon.com/images/I/5143TlKMJmL._SL1171_.jpg"
+    },
+    {
+      "name": "Nestle Everyday Dairy Whitener, Milk Powder for Tea",
+      "rfid": "3A001A8FCB64",
+      "price": 26.00,
+      "quantity": "1 Kg",
+      "image": "https://m.media-amazon.com/images/I/71RnaL8uLKL._SL1500_.jpg"
+    },
+    {
+      "name": "Modern Hi-Fiber Brown Bread",
+      "rfid": "3A001AA2A92B",
+      "price": 40.00,
+      "quantity": "450 g",
+      "image": "https://images.aasaan.shop/stores/gobazaarin/products/product_images/product_1674034737281"
+    },
+    {
+      "name": "Tide Double Power Jasmine & Rose Detergent Powder",
+      "rfid": "3A001A10A696",
+      "price": 140.00,
+      "quantity": "1 kg",
+      "image": "https://images.aasaan.shop/stores/gobazaarin/products/product_images/compressed_1680620965071.webp"
+    },
+    {
+        "name": "Nutella Hazelnut Spread with Cocoa",
+        "rfid": "3A001AD4D327",
+        "price": 350.00,
+        "quantity": "350g",
+        "image": "https://m.media-amazon.com/images/I/510O7shLZyL._SL1100_.jpg"
+      }
+  ]  

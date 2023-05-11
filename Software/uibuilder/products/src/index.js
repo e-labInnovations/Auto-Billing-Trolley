@@ -3,20 +3,21 @@ window.onload = function () {
     // Start up uibuilder - see the docs for the optional parameters
     uibuilder.start()
 
-    uibuilder.send({
-        'topic': 'cartItems',
-        'payload': null,
-    })
+    // uibuilder.send({
+    //     'topic': 'cart',
+    //     'payload': null,
+    // })
 
     // Listen for incoming messages from Node-RED and action
     uibuilder.onChange('msg', (msg) => {
-        // console.log("🚀 ~ file: index.js:17 ~ uibuilder.onChange ~ msg:", msg)
-        if (msg.topic == "cartItems") {
-            showCartItems(msg)
+        // console.log(msg);
+        if (msg.topic == "products") {
+            showProducts(msg)
         }
     })
 }
-const showCartItems = (msg) => {
+
+const showProducts = (msg) => {
     let outputHTML = msg.payload.map(product => {
         return `
         <div class="list-item">
