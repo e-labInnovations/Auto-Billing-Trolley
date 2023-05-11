@@ -29,6 +29,39 @@
                     <div class="list has-visible-pointer-controls" id="productsList">
                     </div>
                 </div>
+
+                <div class="panel-block">
+                    <div class="box" style="width: 100%; text-align: end;">
+                        <div class="field">
+                            <label class="label">Total items</label>
+                            <div class="control" id="totalItems">
+                                0
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Total price</label>
+                            <div class="control" id="totalPrice">
+                                00.00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-block" style="justify-content: flex-end;">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <button class="button is-link is-outlined is-fullwidth">
+                                Clear Cart
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-link is-fullwidth">
+                                Pay Now
+                            </button>
+                        </p>
+                    </div>
+                </div>
             </nav>
         </div>
     </section>
@@ -38,6 +71,7 @@
 
     <!-- #region Supporting Scripts. These MUST be in the right order. Note no leading / -->
     <script defer src="../uibuilder/uibuilder.iife.min.js"></script>
+    <script defer src="/uibuilder/vendor/bulma-toast/dist/bulma-toast.min.js"></script>
     <script defer src="./index.js">/* OPTIONAL: Put your custom code in that */</script>
     <!-- #endregion -->
 </body>

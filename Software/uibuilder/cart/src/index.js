@@ -13,11 +13,16 @@ window.onload = function () {
         // console.log("🚀 ~ file: index.js:17 ~ uibuilder.onChange ~ msg:", msg)
         if (msg.topic == "cartItems") {
             showCartItems(msg)
+        } else if(msg.topic == "cartWarning") {
+            bulmaToast.toast({ message: msg.payload, type: 'is-danger' })
         }
     })
 }
 const showCartItems = (msg) => {
+    let totalPrice = 0
+    let totalItems = msg.payload.length
     let outputHTML = msg.payload.map(product => {
+        totalPrice += product.price
         return `
         <div class="list-item">
             <div class="list-item-image">
@@ -33,7 +38,7 @@ const showCartItems = (msg) => {
     
             <div class="list-item-controls">
                 <div class="is-flex is-align-items-center">
-                    <span>RS: ${product.price}</span>
+                    <span>Rs. ${product.price.toFixed(2)}</span>
     
                     <div class="control ml-3 is-hidden-mobile">
                         <input class="input" type="text" value="${product.quantity}" disabled>
@@ -45,4 +50,6 @@ const showCartItems = (msg) => {
     }).join('')
 
     document.getElementById('productsList').innerHTML = outputHTML
+    document.getElementById('totalPrice').innerHTML = 'Rs. ' + totalPrice.toFixed(2)
+    document.getElementById('totalItems').innerHTML = totalItems
 }

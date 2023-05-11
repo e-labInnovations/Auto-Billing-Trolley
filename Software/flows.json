@@ -31,11 +31,10 @@
         "sourceFolder": "src",
         "deployedVersion": "6.4.1",
         "showMsgUib": false,
-        "x": 130,
-        "y": 340,
+        "x": 90,
+        "y": 240,
         "wires": [
             [
-                "6f1db3a899a796bf",
                 "606943c66937da02"
             ],
             []
@@ -52,45 +51,11 @@
         "y": 80,
         "wires": [
             [
-                "1005b1ea8109025d",
                 "1466f04789862ee8",
-                "7bbd51901c4dd790"
+                "7bbd51901c4dd790",
+                "e16a3f25c7e01b24"
             ]
         ]
-    },
-    {
-        "id": "1005b1ea8109025d",
-        "type": "debug",
-        "z": "7c45b39da721d99e",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 320,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "6f1db3a899a796bf",
-        "type": "debug",
-        "z": "7c45b39da721d99e",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 340,
-        "y": 300,
-        "wires": []
     },
     {
         "id": "c994d0f4f1285514",
@@ -110,8 +75,8 @@
         "sourceFolder": "src",
         "deployedVersion": "6.4.1",
         "showMsgUib": false,
-        "x": 150,
-        "y": 460,
+        "x": 110,
+        "y": 300,
         "wires": [
             [],
             [
@@ -124,37 +89,20 @@
         "type": "function",
         "z": "7c45b39da721d99e",
         "name": "addItem",
-        "func": "const receivedData = JSON.parse(msg.payload)\nconst products = global.get(\"products\")\nconst cart = global.get(\"cart\") || []\n\nif (receivedData.command == \"addItem\") {\n    msg.topic = \"cartItems\"\n    let item = products.find(_item => _item.rfid == receivedData.rfid)\n    let isAlreadyAdded = item && cart.find(_item => _item.rfid == receivedData.rfid)\n    if (item && !isAlreadyAdded)\n        cart.push(item)\n    \n    global.set(\"cart\", cart)\n    msg.payload = cart\n    return msg;\n}",
+        "func": "const receivedData = JSON.parse(msg.payload)\nconst products = global.get(\"products\")\nconst cart = global.get(\"cart\") || []\n\nif (receivedData.command == \"addItem\") {\n    let item = products.find(_item => _item.rfid == receivedData.rfid)\n    let isAlreadyAdded = item && cart.find(_item => _item.rfid == receivedData.rfid)\n    if (item && !isAlreadyAdded) {\n        cart.push(item)\n        global.set(\"cart\", cart)\n\n        msg.topic = \"cartItems\"\n        msg.payload = cart\n    } else {\n        msg.topic = \"cartWarning\"\n        msg.payload = \"Item already added to cart\"\n    }\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 240,
-        "y": 140,
+        "x": 260,
+        "y": 80,
         "wires": [
             [
-                "2332dac187df8489",
-                "c321429bbe075e30"
+                "c321429bbe075e30",
+                "25b060df9bd3bfa4"
             ]
         ]
-    },
-    {
-        "id": "2332dac187df8489",
-        "type": "debug",
-        "z": "7c45b39da721d99e",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 440,
-        "y": 140,
-        "wires": []
     },
     {
         "id": "c321429bbe075e30",
@@ -167,8 +115,8 @@
         "passthrough": false,
         "return": false,
         "outputs": 0,
-        "x": 530,
-        "y": 200,
+        "x": 470,
+        "y": 140,
         "wires": []
     },
     {
@@ -192,8 +140,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 580,
+        "x": 130,
+        "y": 380,
         "wires": [
             [
                 "e0ae13b75beaacbc"
@@ -212,8 +160,8 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 270,
-        "y": 580,
+        "x": 290,
+        "y": 380,
         "wires": [
             [
                 "2b31c6cfa7cc4755"
@@ -232,8 +180,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 720,
-        "y": 580,
+        "x": 740,
+        "y": 380,
         "wires": []
     },
     {
@@ -244,8 +192,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 440,
-        "y": 580,
+        "x": 460,
+        "y": 380,
         "wires": [
             [
                 "2a3114d436b4519b"
@@ -263,30 +211,13 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 590,
-        "y": 580,
+        "x": 610,
+        "y": 380,
         "wires": [
             [
                 "f8ae6ca3134b7d55"
             ]
         ]
-    },
-    {
-        "id": "75a4e685ca961d0c",
-        "type": "debug",
-        "z": "7c45b39da721d99e",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 360,
-        "wires": []
     },
     {
         "id": "a075141ecca43c33",
@@ -299,8 +230,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 480,
+        "x": 280,
+        "y": 300,
         "wires": [
             [
                 "ebdd2991d14c36fb"
@@ -318,23 +249,23 @@
         "passthrough": false,
         "return": false,
         "outputs": 0,
-        "x": 560,
-        "y": 480,
+        "x": 420,
+        "y": 300,
         "wires": []
     },
     {
         "id": "606943c66937da02",
         "type": "function",
         "z": "7c45b39da721d99e",
-        "name": "function 2",
+        "name": "Initial Fetch Cart",
         "func": "if (msg.topic == \"cartItems\") {\n    const products = global.get(\"cart\")\n\n    return {\n        payload: products,\n        topic: \"cartItems\"\n    }\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 280,
-        "y": 240,
+        "x": 260,
+        "y": 200,
         "wires": [
             [
                 "c321429bbe075e30"
@@ -346,18 +277,68 @@
         "type": "function",
         "z": "7c45b39da721d99e",
         "name": "removeItem",
-        "func": "const receivedData = JSON.parse(msg.payload)\nconst products = global.get(\"products\")\nconst cart = global.get(\"cart\") || []\n\nif (receivedData.command == \"removeItem\") {\n    msg.topic = \"cartItems\"\n    let isAlreadyAdded = cart.find(_item => _item.rfid == receivedData.rfid)\n    if (isAlreadyAdded) {\n        const indexToRemove = cart.findIndex(_item => _item.rfid == receivedData.rfid);\n        cart.splice(indexToRemove, 1);\n        global.set(\"cart\", cart)\n    }\n    msg.payload = cart\n    return msg;\n}",
+        "func": "const receivedData = JSON.parse(msg.payload)\nconst products = global.get(\"products\")\nconst cart = global.get(\"cart\") || []\n\nif (receivedData.command == \"removeItem\") {\n    let isAlreadyAdded = cart.find(_item => _item.rfid == receivedData.rfid)\n    if (isAlreadyAdded) {\n        const indexToRemove = cart.findIndex(_item => _item.rfid == receivedData.rfid);\n        cart.splice(indexToRemove, 1);\n        global.set(\"cart\", cart)\n        msg.topic = \"cartItems\"\n        msg.payload = cart\n    } else {\n        msg.topic = \"cartWarning\"\n        msg.payload = \"Item not found in your cart\"\n    }\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 120,
+        "wires": [
+            [
+                "c321429bbe075e30",
+                "25b060df9bd3bfa4"
+            ]
+        ]
+    },
+    {
+        "id": "e16a3f25c7e01b24",
+        "type": "function",
+        "z": "7c45b39da721d99e",
+        "name": "connected",
+        "func": "const receivedData = JSON.parse(msg.payload)\n\nif (receivedData.command == \"addItem\") {\n    global.set('websocketId', msg._session.id)\n}\n\nconst cart = global.get(\"cart\") || []\nvar total = 0\ncart.forEach(function (product) {\n    total += product.price\n});\nmsg.payload = {\n    command: 'cartUpdate',\n    items: cart.length,\n    total: total\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 250,
-        "y": 180,
+        "y": 40,
         "wires": [
             [
-                "c321429bbe075e30"
+                "4881adc4632dcae6"
             ]
         ]
+    },
+    {
+        "id": "25b060df9bd3bfa4",
+        "type": "function",
+        "z": "7c45b39da721d99e",
+        "name": "total",
+        "func": "if (msg.topic != 'cartWarning') {\n    var total = 0\n    msg.payload.forEach(function (product) {\n        total += product.price\n    });\n    msg.payload = {\n        command: 'cartUpdate',\n        items: msg.payload.length,\n        total: total\n    }\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 100,
+        "wires": [
+            [
+                "4881adc4632dcae6"
+            ]
+        ]
+    },
+    {
+        "id": "4881adc4632dcae6",
+        "type": "websocket out",
+        "z": "7c45b39da721d99e",
+        "name": "",
+        "server": "6bfee2d6211a1532",
+        "client": "",
+        "x": 680,
+        "y": 160,
+        "wires": []
     }
 ]
