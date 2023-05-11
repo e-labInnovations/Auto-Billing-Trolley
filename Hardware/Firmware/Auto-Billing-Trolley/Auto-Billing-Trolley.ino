@@ -27,6 +27,9 @@ Libraries using:
 // Define the pins used for the remove item button
 #define REMOVE_Item_Btn 14
 
+// Define the pins used for the Buzzer
+#define BUZZER 16
+
 // Define the I2C address of the LCD display
 #define DISPLAY_ADDR 0x3F
 
@@ -76,8 +79,8 @@ void setup() {
   // Set the pin for the remove item button as input with pull-up resistor enabled
   pinMode(REMOVE_Item_Btn, INPUT_PULLUP);
 
-  // Set the pin 2 as output
-  pinMode(2, OUTPUT);
+  // Set the pin 2 BUZZER output
+  pinMode(BUZZER, OUTPUT);
 
   // Initialize the software serial connection for the RFID reader
   RFID_Serial.begin(9600, SWSERIAL_8N1, RFID_Serial_RX, RFID_Serial_TX, false);
@@ -151,9 +154,6 @@ void loop() {
     delay(500);  // Debounce delay to prevent multiple presses
   }
 
-  // Turn on/off an LED based on the current mode (add or remove item)
-  digitalWrite(2, !removeItem);
-
   // Check if data is available on the RFID reader's software serial connection
   if (RFID_Serial.available()) {
     count = 0;
@@ -163,6 +163,7 @@ void loop() {
       count++;
       delay(5);
     }
+    digitalWrite(BUZZER, HIGH);
 
     // Send a WebSocket message with the RFID number, depending on the current mode (add or remove item)
     if (!removeItem) {
@@ -171,10 +172,14 @@ void loop() {
     } else {
       Serial.print("Remove item: ");
       webSocket.sendTXT(("{ \"command\": \"removeItem\", \"rfid\":\"" + String(card_no) + "\"}").c_str());
+      removeItem = false;
     }
 
     // Print the RFID number to the serial monitor
     Serial.println(card_no);
+
+    delay(1000);
+    digitalWrite(BUZZER, LOW);
   }
 }
 
