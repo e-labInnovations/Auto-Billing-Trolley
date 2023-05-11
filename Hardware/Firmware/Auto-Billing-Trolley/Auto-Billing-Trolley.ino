@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include "src/LiquidCrystal_I2C/LiquidCrystal_I2C.h"  // Library for I2C LCD display
+#include <U8g2lib.h>
 #include <SoftwareSerial.h>
 #include <ESP8266WiFi.h>
 #include <Hash.h>
@@ -37,14 +37,14 @@ Libraries using:
 #define JSON_CONFIG_FILE "/config.json"
 
 // Define the SSID and password for the WiFi network
-#define SSID "Auto Billing Trolley"
+#define AP_SSID "Auto Billing Trolley"
 #define PASSWORD "password"
 
 // Create a new instance of the EspSoftwareSerial library
 EspSoftwareSerial::UART RFID_Serial;
 
-// Initialize an instance of the LiquidCrystal_I2C library for the LCD display
-LiquidCrystal_I2C lcd(DISPLAY_ADDR, 16, 2);
+// Initialize an instance of the u8g2 library for the oled display
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 
 // Initialize an instance of the WiFiManager library for managing the WiFi connection
 WiFiManager wm;
@@ -62,25 +62,90 @@ bool removeItem = false;
 // Initialize a flag to determine whether the configuration settings have been modified and need to be saved
 bool shouldSaveConfig = false;
 
+// Indicates whether the device is currently connected to the server or not
+bool serverConnection = false;
+
+// These two character arrays will hold the string representations of the total items and total price
+char items_str[10];
+char total_str[10];
+
 // Initialize variables to store the WebSocket server address, port, and path
 char ws_server_val[21] = "192.168.x.x";  // Replace "x.x" with the actual IP address of the WebSocket server
 int ws_server_port_val = 1880;
 char ws_server_path_val[41] = "/ws";
 
+void updateDisplay(int mode, const char* ssid = "") {
+  // Initialize display and set font
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_helvB14_tr);
+
+    if (mode == 0) {
+      // Print the label and value for total items
+      u8g2.setCursor(0, 30);
+      u8g2.print("Items: ");
+      u8g2.setCursor(u8g2.getStrWidth("Items: "), 30);
+      u8g2.print(items_str);
+
+      // Print the label and value for total price
+      u8g2.setCursor(0, 46);
+      u8g2.print("Price: ");
+      u8g2.setCursor(u8g2.getStrWidth("Price: "), 46);
+      u8g2.print(total_str);
+      u8g2.setCursor(u8g2.getStrWidth("Price: ") + u8g2.getStrWidth(total_str), 46);
+      u8g2.print(".00");
+
+      // Print the label for add/remove item
+      u8g2.setFont(u8g2_font_t0_13b_tr);
+      u8g2.setCursor(0, 60);
+      u8g2.print(removeItem ? "Remove" : "Add");
+    } else if (mode == 1) {
+      // Print the label and value for WiFi connection status
+      u8g2.setCursor(getCenterX("WiFi"), 28);
+      u8g2.print("WiFi");
+      u8g2.setCursor(getCenterX("Connected"), 44);
+      u8g2.print("Connected");
+      u8g2.setCursor(getCenterX(ssid), 60);
+      u8g2.print(ssid);
+    } else if (mode == 2) {
+      // Print the label for server connection status
+      u8g2.setCursor(getCenterX("Connected"), 30);
+      u8g2.print("Connected");
+      u8g2.setCursor(getCenterX("Server"), 60);
+      u8g2.print("Server");
+    } else if (mode == 3) {
+      // Print the label for server connection status
+      u8g2.setCursor(getCenterX("Server"), 30);
+      u8g2.print("Server");
+      u8g2.setCursor(getCenterX("Disconnected"), 60);
+      u8g2.print("Disconnected");
+    }
+  } while (u8g2.nextPage());
+}
+
 void setup() {
   // Initialize the Serial Monitor
   Serial.begin(115200);
 
-  // Initialize the I2C communication and the LCD display
-  Wire.begin();
-  lcd.init();
-  lcd.backlight();
+  // Initialize the display
+  u8g2.begin();
 
   // Set the pin for the remove item button as input with pull-up resistor enabled
   pinMode(REMOVE_Item_Btn, INPUT_PULLUP);
 
   // Set the pin 2 BUZZER output
   pinMode(BUZZER, OUTPUT);
+
+  // Display a project name on the LCD display for 1 second
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_tenfatguys_tr);
+    u8g2.setCursor(14, 30);
+    u8g2.print("Auto Billing");
+    u8g2.setCursor(32, 46);
+    u8g2.print("Trolley");
+  } while (u8g2.nextPage());
+  delay(1000);
 
   // Initialize the software serial connection for the RFID reader
   RFID_Serial.begin(9600, SWSERIAL_8N1, RFID_Serial_RX, RFID_Serial_TX, false);
@@ -93,6 +158,10 @@ void setup() {
       delay(1000);
     }
   }
+
+  // Set both character arrays to zero to initialize them to default values of 0
+  memset(items_str, 0, sizeof(items_str));
+  memset(total_str, 0, sizeof(total_str));
 
   // Set the initial value of forceConfig to false
   bool forceConfig = false;
@@ -133,11 +202,6 @@ void setup() {
   Serial.println(ws_server_port_val);
   Serial.print("WS server path: ");
   Serial.println(ws_server_path_val);
-
-  // Display a testing message on the LCD display for 1 second
-  lcd.setCursor(0, 0);
-  lcd.print("Testing...");
-  delay(1000);
 }
 
 
@@ -151,6 +215,8 @@ void loop() {
   // Toggle between add and remove items mode when the remove item button is pressed
   if (!removeItemBtnState) {
     removeItem = !removeItem;
+    //Update the display
+    updateDisplay(0);
     delay(500);  // Debounce delay to prevent multiple presses
   }
 
@@ -183,7 +249,11 @@ void loop() {
   }
 }
 
-void handleIncomingData(uint8_t *json) {
+int getCenterX(const char* text) {
+  return (128 - u8g2.getStrWidth(text)) / 2;
+}
+
+void handleIncomingData(uint8_t* json) {
   DynamicJsonDocument doc(500);
   DeserializationError error = deserializeJson(doc, json);
 
@@ -197,21 +267,40 @@ void handleIncomingData(uint8_t *json) {
   Serial.println(command);
 
   if (command == "connected_ack") {
-    // bool tool_timer_status    = doc["status"]["tool_timer"];
+  } else if (command == "cartUpdate") {
+    //{"command":"cartUpdate","items":1,"total":26}
+    // Retrieve the number of items and total price from JSON object
+    int items = doc["items"];
+    int total = doc["total"];
+
+    // Print the number of items and total price to the serial monitor
+    Serial.print("Items: ");
+    Serial.print(items);
+    Serial.print("  Total: ");
+    Serial.println(total);
+
+    // Convert the integer values to strings
+    utoa(items, items_str, 10);
+    utoa(total, total_str, 10);
+
+    //Update the display
+    updateDisplay(0);
   }
 }
 
-void webSocketEvent(WStype_t type, uint8_t *payload, size_t length) {
+void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
   switch (type) {
     case WStype_DISCONNECTED:  // The WebSocket connection has been disconnected
       Serial.printf("[WSc] Disconnected!\n");
+      // Show Disconnected message
+      updateDisplay(3);
       break;
     case WStype_CONNECTED:  // A WebSocket connection has been established
-      {
-        Serial.printf("[WSc] Connected to url: %s\n", payload);
-        // send message to server when Connected
-        webSocket.sendTXT("{\"command\":\"connected\"}");  // Send a text message to the server after a connection has been established
-      }
+      Serial.printf("[WSc] Connected to url: %s\n", payload);
+      // send message to server when Connected
+      webSocket.sendTXT("{\"command\":\"connected\"}");  // Send a text message to the server after a connection has been established
+      // Show connected message
+      updateDisplay(2);
       break;
     case WStype_TEXT:  // A text message has been received from the server
       Serial.printf("[WSc] get text: %s\n", payload);
@@ -316,7 +405,7 @@ void saveConfigCallback() {
 }
 
 // Called when config mode launched
-void configModeCallback(WiFiManager *myWiFiManager) {
+void configModeCallback(WiFiManager* myWiFiManager) {
   Serial.println("Entered Configuration Mode");
 
   Serial.print("Config SSID: ");
@@ -352,7 +441,7 @@ void setupWiFiManager() {
 
   // Connect to WiFi
   bool res;
-  String AP_NAME = SSID;
+  String AP_NAME = AP_SSID;
   res = wm.autoConnect(AP_NAME.c_str(), PASSWORD);  // password protected ap
 
   if (!res) {
@@ -362,6 +451,8 @@ void setupWiFiManager() {
     //if you get here you have connected to the WiFi
     Serial.println("connected...yeey :)");
   }
+
+  updateDisplay(1, WiFi.SSID().c_str());
 
   // Print WiFi information
   Serial.println("");
