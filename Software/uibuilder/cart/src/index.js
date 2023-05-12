@@ -13,9 +13,29 @@ window.onload = function () {
         // console.log("🚀 ~ file: index.js:17 ~ uibuilder.onChange ~ msg:", msg)
         if (msg.topic == "cartItems") {
             showCartItems(msg)
-        } else if(msg.topic == "cartWarning") {
+        } else if (msg.topic == "cartWarning") {
             bulmaToast.toast({ message: msg.payload, type: 'is-danger' })
+        } else if (msg.topic == "clearCart") {
+            bulmaToast.toast({ message: msg.payload, type: 'is-success' })
         }
+    })
+
+    document.getElementById('clearCartBtn').addEventListener('click', () => {
+        // Display a confirmation dialog box
+        var result = window.confirm("Are you sure you want to clear the cart?");
+
+        // If the user clicks "OK", do something
+        if (result) {
+            // Clear the cart
+            uibuilder.send({
+                'topic': 'clearCart',
+                'payload': null,
+            })
+        }
+    })
+
+    document.getElementById('payBtn').addEventListener('click', () => {
+        bulmaToast.toast({ message: "Sorry, this feature is not available at the moment.", type: 'is-warning' })
     })
 }
 const showCartItems = (msg) => {

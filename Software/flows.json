@@ -35,7 +35,8 @@
         "y": 240,
         "wires": [
             [
-                "606943c66937da02"
+                "606943c66937da02",
+                "04a18f6277e2832c"
             ],
             []
         ]
@@ -53,7 +54,8 @@
             [
                 "1466f04789862ee8",
                 "7bbd51901c4dd790",
-                "e16a3f25c7e01b24"
+                "e16a3f25c7e01b24",
+                "f603aa0bc5b06b03"
             ]
         ]
     },
@@ -173,7 +175,7 @@
         "type": "debug",
         "z": "7c45b39da721d99e",
         "name": "debug 5",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -339,6 +341,62 @@
         "client": "",
         "x": 680,
         "y": 160,
+        "wires": []
+    },
+    {
+        "id": "09bbb4838ed690d3",
+        "type": "debug",
+        "z": "7c45b39da721d99e",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "04a18f6277e2832c",
+        "type": "function",
+        "z": "7c45b39da721d99e",
+        "name": "clearCart",
+        "func": "if (msg.topic == \"clearCart\") {\n    global.set(\"cart\", [])\n\n    node.send([{\n        payload: \"Cart cleared\",\n        topic: \"clearCart\"\n    }, null])\n    \n    node.send([{\n        payload: [],\n        topic: \"cartItems\"\n    }, {\n        payload: {\n            command: 'cartUpdate',\n            items: 0,\n            total: 0\n        },\n        _session: {\n            id: global.get('websocketId')\n        }\n    }])\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 240,
+        "wires": [
+            [
+                "c321429bbe075e30"
+            ],
+            [
+                "4881adc4632dcae6"
+            ]
+        ]
+    },
+    {
+        "id": "f603aa0bc5b06b03",
+        "type": "debug",
+        "z": "7c45b39da721d99e",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 20,
         "wires": []
     }
 ]
