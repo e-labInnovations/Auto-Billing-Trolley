@@ -30,6 +30,9 @@ Libraries using:
 // Define the pins used for the Buzzer
 #define BUZZER 16
 
+// WiFi Configure reset button
+#define BTN_CONFIG_RESET 0
+
 // Define the I2C address of the LCD display
 #define DISPLAY_ADDR 0x3F
 
@@ -119,6 +122,12 @@ void updateDisplay(int mode, const char* ssid = "") {
       u8g2.print("Server");
       u8g2.setCursor(getCenterX("Disconnected"), 60);
       u8g2.print("Disconnected");
+    } else if (mode == 4) {
+      // Print the label for server connection status
+      u8g2.setCursor(getCenterX("Configuration"), 30);
+      u8g2.print("Configuration");
+      u8g2.setCursor(getCenterX("Mode"), 60);
+      u8g2.print("Mode");
     }
   } while (u8g2.nextPage());
 }
@@ -132,6 +141,9 @@ void setup() {
 
   // Set the pin for the remove item button as input with pull-up resistor enabled
   pinMode(REMOVE_Item_Btn, INPUT_PULLUP);
+
+  // Set the pin for the configure reset button as input with pull-up resistor enabled
+  pinMode(BTN_CONFIG_RESET, INPUT_PULLUP);
 
   // Set the pin 2 BUZZER output
   pinMode(BUZZER, OUTPUT);
@@ -208,6 +220,15 @@ void setup() {
 void loop() {
   // Call the webSocket library's loop() function to handle any incoming WebSocket messages
   webSocket.loop();
+
+  if (!digitalRead(BTN_CONFIG_RESET)) {
+    // Button BTN_CONFIG_RESET is pressed
+    Serial.println("BTN_CONFIG_RESET pressed, resetting WiFi credentials");
+    // Reset WiFiManager settings - wipe stored credentials for testing
+    wm.resetSettings();
+    // Restart the ESP8266
+    ESP.restart();
+  }
 
   // Read the state of the remove item button
   bool removeItemBtnState = digitalRead(REMOVE_Item_Btn);
@@ -404,8 +425,11 @@ void saveConfigCallback() {
   shouldSaveConfig = true;
 }
 
-// Called when config mode launched
+// Called when configuration mode is launched
 void configModeCallback(WiFiManager* myWiFiManager) {
+
+  updateDisplay(4);
+  
   Serial.println("Entered Configuration Mode");
 
   Serial.print("Config SSID: ");
